@@ -299,6 +299,8 @@ en:
   related_resources: Related Collections
   linked_instances: Linked Records
   linked_digital_objects: Digital Material
+  collection_feed: All records in the collection
+  collection_feed_nav: Navigate to Series
 
   accession:
    _singular: Unprocessed
@@ -2045,3 +2047,6 @@ en:
     search_results: Skip to search results
 
   search_tab: Search %{target}
+
+  collection_organization:
+    return_to_top: Return to top
