@@ -16,7 +16,7 @@
   show_spacer = true unless defined?(show_spacer)
 %>
 
-<% unless result.thumbnail_embed.nil? && thumbnail_link.nil? %>
+<% if result.show_thumbnail? %>
   <div class="pui-thumbnail">
     <%= link_to thumbnail_link, :target => same_window ? '_self' : '_blank' do %>
       <div class="pui-thumbnail-help-text">Click here to access online</div>
@@ -35,5 +35,7 @@
     <% end %>
   </div>
 <% else %>
-  <div class="pui-thumbnail-spacer"></div>
+  <% if show_spacer %>
+    <div class="pui-thumbnail-spacer"></div>
+  <% end %>
 <% end %>

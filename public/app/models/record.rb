@@ -167,6 +167,9 @@ class Record
     end
   end
 
+  def show_thumbnail?
+    fetch_candidate_file_versions.any?
+  end
 
   private
 
