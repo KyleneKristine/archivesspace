@@ -5,8 +5,8 @@ Sequel.migration do
     alter_table(:ark_name) do
       add_column(:generated_value, String, :null => true)
       add_column(:user_value, String, :null => true)
-      add_column(:is_current, Integer, :null => false)
-      add_column(:retired_at_epoch_ms, :Bignum, :null => false)
+      add_column(:is_current, Integer, :null => false, :default => 0)
+      add_column(:retired_at_epoch_ms, :Bignum, :null => false, :default => 0)
     end
 
     self.transaction do
