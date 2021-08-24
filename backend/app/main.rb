@@ -26,6 +26,9 @@ require_relative 'lib/export'
 require_relative 'lib/request_context'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
+
+require_relative 'lib/ark/ark_minter'
+
 require 'solr_snapshotter'
 
 require 'barcode_check'
@@ -129,7 +132,7 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
       [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
-        ['model/mixins', 'model', 'model/reports', 'lib/bulk_import', 'controllers'].each do |path|
+        ['model/mixins', 'model', 'model/reports', 'lib/bulk_import', 'lib/ark', 'controllers'].each do |path|
           Dir.glob(File.join(prefix, path, "*.rb")).sort.each do |file|
             require File.absolute_path(file)
           end
