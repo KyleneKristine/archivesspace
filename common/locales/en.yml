@@ -2029,7 +2029,7 @@ en:
     sponsor_set_desc_required: Sponsor set description is required for creating an OAI sponsor set
     sponsor_set_name_required: Sponsor set name is required for creating an OAI sponsor set
     invalid_characters: Contains invalid characters
-
+    ark_collision: There was a problem while generating an Ark for this record. Please contact your system administrator.
 
   job:
     _singular: Background Job
