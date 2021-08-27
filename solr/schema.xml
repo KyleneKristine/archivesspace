@@ -234,6 +234,9 @@
    <field name="slug" type="string" indexed="true" stored="true" multiValued="false"/>
    <field name="is_slug_auto" type="boolean" indexed="true" stored="true" multiValued="false"/>
 
+   <!-- Ark fields -->
+   <field name="ark_name" type="string" indexed="true" stored="true" multiValued="true"/>
+
    <!-- Job fields -->
    <field name="status" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="job_type" type="string" indexed="true" stored="true" multiValued="false" />

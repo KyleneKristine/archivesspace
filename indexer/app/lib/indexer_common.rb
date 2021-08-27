@@ -292,6 +292,19 @@ class IndexerCommon
     end
   end
 
+  def trim_ark_value(s)
+    s.gsub(/\A.*ark:/, 'ark:')
+  end
+
+  def add_arks(doc, record)
+    return unless AppConfig[:arks_enabled]
+
+    if arks = record['record']['ark_name']
+      doc['ark_name'] = ([arks.fetch('current')] + arks.fetch('previous')).map {|s| trim_ark_value(s)}
+    end
+  end
+
+
   # TODO: We should fix this to read from the JSON schemas
   HARDCODED_ENUM_FIELDS = ["relator", "type", "role", "source", "rules", "acquisition_type", "resource_type", "processing_priority", "processing_status", "era", "calendar", "digital_object_type", "level", "processing_total_extent_type", "extent_type", "language", "script", "event_type", "type_1", "type_2", "type_3", "salutation", "outcome", "finding_aid_description_rules", "finding_aid_status", "instance_type", "use_statement", "checksum_method", "date_type", "label", "certainty", "scope", "portion", "xlink_actuate_attribute", "xlink_show_attribute", "file_format_name", "temporary", "name_order", "country", "jurisdiction", "rights_type", "ip_status", "term_type", "enum_1", "enum_2", "enum_3", "enum_4", "relator_type", "job_type"]
 
@@ -344,6 +357,7 @@ class IndexerCommon
       add_level(doc, record)
       add_summary(doc, record)
       add_extents(doc, record)
+      add_arks(doc, record)
     }
 
     add_document_prepare_hook {|doc, record|
