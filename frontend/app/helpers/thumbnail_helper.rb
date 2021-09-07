@@ -152,9 +152,19 @@ module ThumbnailHelper
     )
   end
 
+  def iiif_viewer_url(repo_code = :default)
+    AppConfig[:iiif_viewer_url].fetch(repo_code, AppConfig[:iiif_viewer_url].fetch(:default))
+  end
+
+  def iiif_enabled?
+    AppConfig.has_key?(:iiif_viewer_url) &&
+      AppConfig[:iiif_viewer_url].is_a?(Hash) &&
+        AppConfig[:iiif_viewer_url].has_key?(:default)
+  end
+
   def iiif_manifest?(file_version)
-    file_version['file_format_name'] == AppConfig['iiif_file_format_name'] &&
-      file_version['use_statement'] == AppConfig['iiif_use_statement'] &&
-        file_version['xlink_show_attribute'] == AppConfig['iiif_xlink_show_attribute']
+    file_version['file_format_name'] == AppConfig[:iiif_file_format_name] &&
+      file_version['use_statement'] == AppConfig[:iiif_use_statement] &&
+        file_version['xlink_show_attribute'] == AppConfig[:iiif_xlink_show_attribute]
   end
 end

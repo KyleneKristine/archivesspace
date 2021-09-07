@@ -150,12 +150,22 @@ class Record
     file_version_candidates = fetch_candidate_file_versions
 
     @iiif_embed = file_version_candidates.detect do |fv|
-      fv['file_format_name'] == AppConfig['iiif_file_format_name'] &&
-        fv['use_statement'] == AppConfig['iiif_use_statement'] &&
-        fv['xlink_show_attribute'] == AppConfig['iiif_xlink_show_attribute']
+      fv['file_format_name'] == AppConfig[:iiif_file_format_name] &&
+        fv['use_statement'] == AppConfig[:iiif_use_statement] &&
+        fv['xlink_show_attribute'] == AppConfig[:iiif_xlink_show_attribute]
     end
   end
 
+  def iiif_viewer_url
+    repo_code = resolved_repository.fetch('repo_code')
+    AppConfig[:iiif_viewer_url].fetch(repo_code, AppConfig[:iiif_viewer_url].fetch(:default))
+  end
+
+  def iiif_enabled?
+    AppConfig.has_key?(:iiif_viewer_url) &&
+      AppConfig[:iiif_viewer_url].is_a?(Hash) &&
+      AppConfig[:iiif_viewer_url].has_key?(:default)
+  end
 
   def build_instance_display_string(instance)
     if sc = instance.fetch('sub_container', nil)
