@@ -115,20 +115,21 @@ class Record
 
     return display_string if file_version_candidates.empty?
 
-    # 1. take the representative caption
-    if (representative = file_version_candidates.detect{|fv| fv['is_representative']})
-      if representative['caption']
-        return representative['caption']
-      elsif (digital_object_title = representative.dig('_digital_object', 'title'))
-        return digital_object_title
-      end
-    end
 
-    # 2. otherwise take the embedded thumbnail caption or digital object title
+    # 1. take the embedded thumbnail caption or digital object title
     if (embed = thumbnail_embed)
       if embed['caption']
         return embed['caption']
       elsif (digital_object_title = embed.dig('_digital_object', 'title'))
+        return digital_object_title
+      end
+    end
+
+    # 2. take the representative caption
+    if (representative = file_version_candidates.detect{|fv| fv['is_representative']})
+      if representative['caption']
+        return representative['caption']
+      elsif (digital_object_title = representative.dig('_digital_object', 'title'))
         return digital_object_title
       end
     end

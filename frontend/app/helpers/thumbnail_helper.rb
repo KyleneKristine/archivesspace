@@ -81,21 +81,21 @@ module ThumbnailHelper
 
     return fallback_title if file_version_candidates.empty?
 
-    # 1. take the representative caption
-    if (representative = file_version_candidates.detect{|fv| fv['is_representative']})
-      if representative['caption']
-        return representative['caption']
-      elsif representative['_digital_object_title']
-        return representative['_digital_object_title']
-      end
-    end
-
-    # 2. otherwise take the embedded thumbnail caption or digital object title
+    # 1. take the embedded thumbnail caption or digital object title
     if (embed = find_thumbnail_file_version(file_version_candidates))
       if embed['caption']
         return embed['caption']
       elsif embed['_digital_object_title']
         return embed['_digital_object_title']
+      end
+    end
+
+    # 2. take the representative caption
+    if (representative = file_version_candidates.detect{|fv| fv['is_representative']})
+      if representative['caption']
+        return representative['caption']
+      elsif representative['_digital_object_title']
+        return representative['_digital_object_title']
       end
     end
 
