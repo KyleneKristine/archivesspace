@@ -2463,3 +2463,13 @@ en:
       wrong_file_type: "The file is neither an Excel Spreadsheet nor a CSV file"
       dig_obj_unique: "Digital Object ID '%{id}' already exists."
       cannot: Cannot continue due to previous errors
+
+  arks:
+    ark: ARK
+    edit: Edit ARKs
+    current: current
+    remove_ark: Remove
+    add_new: Add new ARK
+    set_current: Set to current
+    save: Save ARKs
+    modal_title: Edit ARKs for current record
