@@ -8,11 +8,19 @@ end
 
  describe "Generate ARKs job" do
 
+   before(:all) do
+     AppConfig[:arks_enabled] = true
+   end
+
    let(:user) { create_nobody_user }
 
    it "results in an ark being generated for all supported types" do
      resource  = Resource.create_from_json(build(:json_resource_nohtml))
      archival_object = ArchivalObject.create_from_json(build(:json_archival_object_nohtml))
+
+     # Delete ARKs to pretend these had not been generated yet
+     ArkName.filter(:resource_id => resource.id).delete
+     ArkName.filter(:archival_object_id => archival_object.id).delete
 
      expect(ArkName.first(:resource_id => resource.id)).to be_nil
      expect(ArkName.first(:archival_object_id => archival_object.id)).to be_nil
@@ -29,9 +37,6 @@ end
   it "does not add a second ark for objects that already exist in the ark_name table" do
     resource  = Resource.create_from_json(build(:json_resource_nohtml))
     archival_object = ArchivalObject.create_from_json(build(:json_archival_object_nohtml))
-
-    ArkName.create_from_resource(resource)
-    ArkName.create_from_archival_object(archival_object)
 
     expect(ArkName.where(:resource_id => resource.id).count).to eq(1)
     expect(ArkName.where(:archival_object_id => archival_object.id).count).to eq(1)
