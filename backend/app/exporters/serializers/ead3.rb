@@ -1195,7 +1195,7 @@ class EAD3Serializer < EADSerializer
     return unless data.ark_name
 
     xml.unitid ({
-      "type" => "ark",
+      "localtype" => "ark",
     }) {
       xml.ref ({"href" => data.ark_name.fetch('current'),
                 "actuate" => "onload",
@@ -1205,7 +1205,7 @@ class EAD3Serializer < EADSerializer
 
     data.ark_name.fetch('previous', []).each do |old_ark_url|
       xml.unitid ({
-        "type" => "ark-superseded",
+        "localtype" => "ark-superseded",
       }) {
         xml.ref ({"href" => old_ark_url,
                   "actuate" => "onload",
