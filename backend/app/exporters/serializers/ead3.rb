@@ -1198,7 +1198,7 @@ class EAD3Serializer < EADSerializer
       "type" => "ark",
     }) {
       xml.ref ({"href" => data.ark_name.fetch('current'),
-                "actuate" => "onLoad",
+                "actuate" => "onload",
                 "show" => "new",
       }) { xml.text 'Archival Resource Key' }
     }
@@ -1208,7 +1208,7 @@ class EAD3Serializer < EADSerializer
         "type" => "ark-superseded",
       }) {
         xml.ref ({"href" => old_ark_url,
-                  "actuate" => "onLoad",
+                  "actuate" => "onload",
                   "show" => "new",
         }) { xml.text 'Previous Archival Resource Key' }
       }
