@@ -32,7 +32,7 @@
 # Minters are free to build ARKs however they like, pulling in data from
 # whichever sources make sense.  For example, both provided minters make use of
 # a system-wide ARK NAAN value, an (optional) repository-specific value (called
-# a "shoulder" in AARK parlance), and a system-wide delimiter.  Custom minters
+# a "shoulder" in ARK parlance), and a system-wide delimiter.  Custom minters
 # might work differently, incorporating data from other records and/or external
 # sources.
 #
@@ -82,7 +82,7 @@ class ArkMinter
     ArkMinter.generate_version_key(AppConfig[:ark_naan], shoulder_for_repo(obj.repo_id), AppConfig[:ark_shoulder_delimiter])
   end
 
-  # Has some values together and return a string.
+  # Hash some values together and return a string.
   def self.generate_version_key(*version_grist)
     Digest::SHA256.hexdigest(version_grist.map(&:to_s).to_json)
   end
