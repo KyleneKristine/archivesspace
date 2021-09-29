@@ -166,11 +166,19 @@ class ArkName < Sequel::Model(:ark_name)
       ArkName.filter(fk_col => obj.id).delete
 
       if ark_name['current']
-        ArkName.insert(ark.merge(:ark_value => ark_name['current'],
-                                 :is_external_url => ark_name['current_is_external'] ? 1 : 0,
-                                 :is_current => 1,
-                                 :retired_at_epoch_ms => 0,
-                                 :version_key => ark_name['current_is_external'] ? EXTERNAL_ARK_VERSION_KEY : ark_minter.version_key_for(obj)))
+        if ark_name['current_is_external']
+          ArkName.insert(ark.merge(:ark_value => ark_name['current'],
+                                   :is_external_url => 1,
+                                   :is_current => 1,
+                                   :retired_at_epoch_ms => 0,
+                                   :version_key => EXTERNAL_ARK_VERSION_KEY))
+        else
+          ArkName.insert(ark.merge(:ark_value => clean_ark_value(ark_name['current']),
+                                   :is_external_url => 0,
+                                   :is_current => 1,
+                                   :retired_at_epoch_ms => 0,
+                                   :version_key => ark_minter.version_key_for(obj)))
+        end
       end
 
       now_i = (now.to_f * 1000).to_i
