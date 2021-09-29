@@ -1,14 +1,14 @@
 class ArchivesSpaceArkMinter < ArkMinter
 
-  def mint!(obj, external_ark_url, row_defaults)
+  def mint!(obj, row_defaults)
     DB.open do |db|
-      ark_id = db[:ark_name].insert(row_defaults.merge(:user_value => external_ark_url))
+      ark_id = db[:ark_name].insert(row_defaults)
 
       ark_shoulder = shoulder_for_repo(obj.repo_id)
 
       db[:ark_name]
         .filter(:id => ark_id)
-        .update(:generated_value => build_generated_ark(ark_id, ark_shoulder))
+        .update(:ark_value => build_generated_ark(ark_id, ark_shoulder))
     end
   end
 

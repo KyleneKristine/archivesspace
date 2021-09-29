@@ -23,7 +23,6 @@ Sequel.migration do
         .select(:repo_id, :archival_object_id, :generated_value, :user_value)
         .distinct
         .each do |row|
-
         self[:ark_uniq_check].insert(:record_uri => "/repositories/#{row[:repo_id]}/archival_objects/#{row[:archival_object_id]}",
                                      :value => row[:generated_value])
 

@@ -2477,6 +2477,7 @@ en:
     no_changes: No changes to save
     modal_title: Edit ARKs for current record
     unsubmitted_input: You have unsubmitted input
+    only_current_ark_can_be_external: The current ARK cannot be replaced while it is marked as external.
     ark_editor_errors:
       ark_collision: One of the ARKs provided is already in use.
       ark_format_error: One of the ARKs provided was not a valid ARK.

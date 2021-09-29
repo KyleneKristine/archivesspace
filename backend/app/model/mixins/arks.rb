@@ -36,10 +36,15 @@ module Arks
 
           json['ark_name'] = {
             'current' => current.value,
+            'current_is_external' => (current.is_external_url == 1),
             'previous' => previous.map(&:value),
           }
 
-          json['external_ark_url'] = current.user_value
+          if current.is_external_url == 1
+            json['external_ark_url'] = current.ark_value
+          else
+            json['external_ark_url'] = nil
+          end
         end
       end
 
