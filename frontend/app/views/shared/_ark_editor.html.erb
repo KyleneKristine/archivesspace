@@ -106,7 +106,12 @@
  EditArksForm.prototype.refreshTable = function() {
      var self = this;
 
-     this.currentArkRow.find('.ark-value').text(this.currentArk);
+     if (this.currentArk) {
+         this.currentArkRow.find('.ark-value').text(this.currentArk);
+         this.currentArkRow.show();
+     } else {
+         this.currentArkRow.hide();
+     }
 
      if (this.rootElt.find('.current-ark-is-external').is(':checked')) {
          this.rootElt.find('.set-ark-current').attr('disabled', 'disabled');
