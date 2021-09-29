@@ -2030,6 +2030,7 @@ en:
     sponsor_set_name_required: Sponsor set name is required for creating an OAI sponsor set
     invalid_characters: Contains invalid characters
     ark_collision: There was a problem while generating an ARK for this record. Please contact your system administrator.
+    external_ark_collision: External ARK already in use
     ark_format_error: One of the ARKs provided was not a valid ARK.
 
   job:

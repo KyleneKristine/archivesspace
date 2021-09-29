@@ -34,6 +34,17 @@ class ArkName < Sequel::Model(:ark_name)
     now = Time.now
 
     DB.open do |db|
+      if AppConfig[:arks_allow_external_arks]
+        cnt = self
+          .filter(fk_col => obj.id, :is_current => 1)
+          .update(:user_value => external_ark_url)
+
+        if cnt == 1
+          check_unique(db, obj)
+          return
+        end
+      end
+
       self
         .filter(fk_col => obj.id, :is_current => 1)
         .update(:is_current => 0,
@@ -63,15 +74,27 @@ class ArkName < Sequel::Model(:ark_name)
     fk_col = fk_for_class(obj.class)
     return unless fk_col
 
-    # Make sure the value we've generated hasn't been used elsewhere.
+    # Make sure the value we've generated, or the user value hasn't been used elsewhere.
     db[:ark_uniq_check].filter(:record_uri => obj.uri).delete
-    generated_values = self.filter(fk_col => obj.id).select(:generated_value).distinct.map {|row| row[:generated_value]}
+    values = self.filter(fk_col => obj.id).select(:generated_value, :user_value).distinct
+      .map {|row| [row[:generated_value], row[:user_value]]}.flatten.compact
 
     begin
-      generated_values.each do |value|
-        db[:ark_uniq_check].insert(:record_uri => obj.uri, :generated_value => value)
+      values.each do |value|
+        db[:ark_uniq_check].insert(:record_uri => obj.uri, :value => value)
       end
     rescue Sequel::UniqueConstraintViolation => e
+
+      # We want to give a useful error in the case that the collision is on the external_ark_url
+      if db[Sequel.as(:ark_name, :a)]
+          .join(Sequel.as(:ark_name, :b),
+                Sequel.&({Sequel.qualify(:a, :user_value) => Sequel.qualify(:b, :user_value)},
+                         Sequel.~(Sequel.qualify(:a, fk_col) => Sequel.qualify(:b, fk_col))))
+          .count > 0
+
+        raise JSONModel::ValidationException.new(:errors => {"external_ark_url" => ["external_ark_collision"]})
+      end
+
       raise JSONModel::ValidationException.new(:errors => {"ark" => ["ark_collision"]})
     end
   end
