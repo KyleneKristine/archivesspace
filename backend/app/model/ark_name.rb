@@ -81,7 +81,7 @@ class ArkName < Sequel::Model(:ark_name)
 
     begin
       values.each do |value|
-        db[:ark_uniq_check].insert(:record_uri => obj.uri, :value => value)
+        db[:ark_uniq_check].insert(:record_uri => obj.uri, :value => value.sub(/^.*?ark:/i, 'ark:'))
       end
     rescue Sequel::UniqueConstraintViolation => e
 

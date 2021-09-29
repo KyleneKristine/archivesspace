@@ -15,7 +15,7 @@ Sequel.migration do
 
         if row[:user_value]
           self[:ark_uniq_check].insert(:record_uri => "/repositories/#{row[:repo_id]}/resources/#{row[:resource_id]}",
-                                       :value => row[:user_value])
+                                       :value => row[:user_value].sub(/^.*?ark:/i, 'ark:'))
         end
       end
 
@@ -29,7 +29,7 @@ Sequel.migration do
 
         if row[:user_value]
           self[:ark_uniq_check].insert(:record_uri => "/repositories/#{row[:repo_id]}/archival_objects/#{row[:archival_object_id]}",
-                                       :value => row[:user_value])
+                                       :value => row[:user_value].sub(/^.*?ark:/i, 'ark:'))
         end
       end
     end
