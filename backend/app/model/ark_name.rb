@@ -115,7 +115,6 @@ class ArkName < Sequel::Model(:ark_name)
     # Make sure the value we've generated, or the user value hasn't been used elsewhere.
     db[:ark_uniq_check].filter(:record_uri => obj.uri).delete
 
-    # Maybe ark background job regenerates unique table?
     ark_value_query = self.filter(fk_col => obj.id).select(:ark_value).distinct
 
     # If external ARKs are turned off, don't count them in our uniqueness checks
