@@ -2,7 +2,9 @@ class ArchivesSpaceArkMinter < ArkMinter
 
   def mint!(obj, row_defaults)
     DB.open do |db|
-      ark_id = db[:ark_name].insert(row_defaults)
+      # value is not nullable, so put a temporary value in until we put the final
+      # value in with the update below.
+      ark_id = db[:ark_name].insert(row_defaults.merge(:ark_value => "__ark_placeholder_#{SecureRandom.hex}"))
 
       ark_shoulder = shoulder_for_repo(obj.repo_id)
 
